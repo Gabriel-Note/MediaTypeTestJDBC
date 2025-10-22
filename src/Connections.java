@@ -1,7 +1,7 @@
 import java.sql.*;
 
 public class Connections {
-    static ResultSet JDBCConnection(String dbName, String password, String sql) throws SQLException{
+    static ResultSet JDBCQueryConnection(String dbName, String password, String sql) throws SQLException{
         String url = "jdbc:mysql://localhost:3306/" + dbName;
         String user = "root";
         //String password = "12345";  // ÄNDRA!
@@ -12,7 +12,7 @@ public class Connections {
         return rs;
     }
 
-    static ResultSet JDBCConnection(String sql) throws SQLException{
+    static ResultSet JDBCQueryConnection(String sql) throws SQLException{
 
         String url = "jdbc:mysql://localhost:3306/mediatypetest";
         String user = "root";
@@ -23,5 +23,17 @@ public class Connections {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
+    }
+
+    static Statement JDBCUpdateConnection(String sql) throws SQLException{
+
+        String url = "jdbc:mysql://localhost:3306/mediatypetest";
+        String user = "root";
+        String password = "12345";
+
+        Connection conn = DriverManager.getConnection(url, user, password);
+
+        Statement stmt = conn.createStatement();
+        return stmt;
     }
 }

@@ -6,7 +6,7 @@ public class Main {
         for (Media m : mr.showAllMedia()){
             System.out.println(m.getMediaID() + m.getTitle() + m.getPublishingYear());
         }
-
+        mr.insertNewMedia("harry bottle", "Book");
 
     }
 }

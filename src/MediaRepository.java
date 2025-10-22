@@ -7,7 +7,7 @@ public class MediaRepository {
 
         ArrayList<Media> media = new ArrayList<>();
 
-        try(ResultSet rs = Connections.JDBCConnection(sql)){
+        try(ResultSet rs = Connections.JDBCQueryConnection(sql)){
 
             while(rs.next()){
                 int id = rs.getInt("media_id");
@@ -32,5 +32,14 @@ public class MediaRepository {
         String sql =
                 "INSERT INTO media (title, media_type) " +
                 "VALUES('"+title+"', '"+mediaType+"')";
+
+        try(Statement stmt = Connections.JDBCUpdateConnection(sql)){
+            int rowsUpdated = stmt.executeUpdate(sql);
+            System.out.println("rad uppdaterad " + rowsUpdated);
+        }
+        catch (SQLException e){
+            System.out.println("Något blev fel");
+            e.printStackTrace();
+        }
     }
 }
