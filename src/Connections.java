@@ -37,7 +37,7 @@ public class Connections {
         return stmt;
     }
 
-    static PreparedStatement preparedJDBCUpdateConnection(String sql) throws SQLException{
+    static PreparedStatement preparedJDBCUpdateConnection(String query) throws SQLException{
 
         String url = "jdbc:mysql://localhost:3306/mediatypetest";
         String user = "root";
@@ -45,7 +45,7 @@ public class Connections {
 
         Connection conn = DriverManager.getConnection(url, user, password);
 
-        PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         return pstmt;
     }
 }
