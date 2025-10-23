@@ -3,6 +3,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MediaRepository {
+
+
     public ArrayList<Media> showAllMedia(){
         String sql = "SELECT * FROM mediatypetest.media;";
 
@@ -45,15 +47,20 @@ public class MediaRepository {
         }
     }
 
-    public int insertNewMediaGetKey(String title){
+    public int insertNewMediaGetKey(String title, MediaType mediaType){
         int mediaId = -1;
         String sql = """
         INSERT INTO media (title, media_type)
-        VALUES(?, 'E-book')
+        VALUES(?, ?)
         """;
 
+        ArrayList<Media> media = new ArrayList<>();
+
         try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+
             pstmt.setString(1, title);
+            pstmt.setString(2, mediaType.getMediaType());
+
             int rowsUpdated = pstmt.executeUpdate();
 
             if (rowsUpdated > 0){
@@ -63,7 +70,6 @@ public class MediaRepository {
                     mediaId = generatedKeys.getInt(1);
                 }
             }
-
         }
         catch (SQLException e){
             System.out.println("Något blev fel");

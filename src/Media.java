@@ -1,4 +1,4 @@
-public class Media {
+public class Media{
     private int mediaID;
     private String title;
     private int publishingYear;

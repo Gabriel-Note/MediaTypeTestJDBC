@@ -7,7 +7,7 @@ public class Main {
             System.out.println(m.getMediaID() + m.getTitle() + m.getPublishingYear());
         }
 //        mr.insertNewMedia("harry bottle", "Book");
-        int mediaKey = mr.insertNewMediaGetKey("harry snottle");
+        int mediaKey = mr.insertNewMediaGetKey("harry snottle", MediaType.AUDIOBOOK);
         System.out.println("Medianyckel: " + mediaKey);
 
     }
