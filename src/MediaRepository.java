@@ -47,6 +47,7 @@ public class MediaRepository {
         }
     }
 
+    // Göra en insert i databasen och returnera id:et för den skapade raden för att kunna användas senare i andra klasser som Foreign key
     public int insertNewMediaGetKey(String title, MediaType mediaType){
         int mediaId = -1;
         String sql = """
@@ -54,7 +55,34 @@ public class MediaRepository {
         VALUES(?, ?)
         """;
 
-        ArrayList<Media> media = new ArrayList<>();
+        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+
+            pstmt.setString(1, title);
+            pstmt.setString(2, mediaType.getMediaType());
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0){
+                System.out.println("rad uppdaterad " + rowsUpdated);
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if(generatedKeys.next()){
+                    mediaId = generatedKeys.getInt(1);
+                }
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Något blev fel");
+            e.printStackTrace();
+        }
+        return mediaId;
+    }
+
+    public int insertNewMediffffffaGetKey(String title, MediaType mediaType){
+        int mediaId = -1;
+        String sql = """
+        INSERT INTO media (title, media_type)
+        VALUES(?, ?)
+        """;
 
         try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
 
