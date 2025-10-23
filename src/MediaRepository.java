@@ -1,3 +1,4 @@
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class MediaRepository {
         }
         return media;
     }
+
     public void insertNewMedia(String title, String mediaType){
         String sql =
                 "INSERT INTO media (title, media_type) " +
@@ -41,5 +43,32 @@ public class MediaRepository {
             System.out.println("Något blev fel");
             e.printStackTrace();
         }
+    }
+
+    public int insertNewMediaGetKey(String title){
+        int mediaId = -1;
+        String sql = """
+        INSERT INTO media (title, media_type)
+        VALUES(?, 'E-book')
+        """;
+
+        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+            pstmt.setString(1, title);
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0){
+                System.out.println("rad uppdaterad " + rowsUpdated);
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if(generatedKeys.next()){
+                    mediaId = generatedKeys.getInt(1);
+                }
+            }
+
+        }
+        catch (SQLException e){
+            System.out.println("Något blev fel");
+            e.printStackTrace();
+        }
+        return mediaId;
     }
 }

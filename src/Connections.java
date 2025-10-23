@@ -36,4 +36,16 @@ public class Connections {
         Statement stmt = conn.createStatement();
         return stmt;
     }
+
+    static PreparedStatement preparedJDBCUpdateConnection(String sql) throws SQLException{
+
+        String url = "jdbc:mysql://localhost:3306/mediatypetest";
+        String user = "root";
+        String password = "12345";
+
+        Connection conn = DriverManager.getConnection(url, user, password);
+
+        PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        return pstmt;
+    }
 }

@@ -6,7 +6,9 @@ public class Main {
         for (Media m : mr.showAllMedia()){
             System.out.println(m.getMediaID() + m.getTitle() + m.getPublishingYear());
         }
-        mr.insertNewMedia("harry bottle", "Book");
+//        mr.insertNewMedia("harry bottle", "Book");
+        int mediaKey = mr.insertNewMediaGetKey("harry snottle");
+        System.out.println("Medianyckel: " + mediaKey);
 
     }
 }
