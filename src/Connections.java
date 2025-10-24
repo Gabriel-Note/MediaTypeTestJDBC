@@ -11,6 +11,16 @@ public class Connections {
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
+    static Connection JDBCConnection() throws SQLException{
+
+        String url = "jdbc:mysql://localhost:3306/mediatypetest";
+        String user = "root";
+        String password = "12345";
+
+        Connection conn = DriverManager.getConnection(url, user, password);
+
+        return conn;
+    }
 
     static ResultSet JDBCQueryConnection(String sql) throws SQLException{
 
@@ -45,6 +55,11 @@ public class Connections {
 
         Connection conn = DriverManager.getConnection(url, user, password);
 
+        PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        return pstmt;
+    }
+
+    static PreparedStatement existingConnection(Connection conn, String query) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         return pstmt;
     }

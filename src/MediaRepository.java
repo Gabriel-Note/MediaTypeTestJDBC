@@ -1,8 +1,7 @@
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class MediaRepository {
+public abstract class MediaRepository {
 
 
     public ArrayList<Media> showAllMedia(){
@@ -48,14 +47,15 @@ public class MediaRepository {
     }
 
     // Göra en insert i databasen och returnera id:et för den skapade raden för att kunna användas senare i andra klasser som Foreign key
-    public int insertNewMediaGetKey(String title, MediaType mediaType){
+    public int insertNewMediaGetKey(Connection conn, String title, MediaType mediaType){
         int mediaId = -1;
         String sql = """
         INSERT INTO media (title, media_type)
         VALUES(?, ?)
+        
         """;
 
-        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+        try(PreparedStatement pstmt = Connections.existingConnection(conn, sql)){
 
             pstmt.setString(1, title);
             pstmt.setString(2, mediaType.getMediaType());
@@ -63,15 +63,16 @@ public class MediaRepository {
             int rowsUpdated = pstmt.executeUpdate();
 
             if (rowsUpdated > 0){
-                System.out.println("rad uppdaterad " + rowsUpdated);
+                System.out.println("Media uppdaterad");
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
                 if(generatedKeys.next()){
                     mediaId = generatedKeys.getInt(1);
                 }
             }
+            System.out.println("Medianyckel: " + mediaId);
         }
         catch (SQLException e){
-            System.out.println("Något blev fel");
+            System.out.println("Fel vid skapande av Media");
             e.printStackTrace();
         }
         return mediaId;
