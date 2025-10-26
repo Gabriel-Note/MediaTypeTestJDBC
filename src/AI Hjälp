@@ -1,0 +1,64 @@
+public class Media {
+    private final int mediaID;
+    private final String title;
+    private final String mediaType;
+    private final Integer publishingYear;
+    private final Double price;
+    private final String language;
+
+    private Media(Builder builder) {
+        this.mediaID = builder.mediaID;
+        this.title = builder.title;
+        this.mediaType = builder.mediaType;
+        this.publishingYear = builder.publishingYear;
+        this.price = builder.price;
+        this.language = builder.language;
+    }
+
+    public static class Builder {
+        private final int mediaID;
+        private final String title;
+        private final String mediaType;
+        private Integer publishingYear;
+        private Double price;
+        private String language;
+
+        public Builder(int mediaID, String title, String mediaType) {
+            this.mediaID = mediaID;
+            this.title = title;
+            this.mediaType = mediaType;
+        }
+
+        public Builder publishingYear(int year) {
+            this.publishingYear = year;
+            return this;
+        }
+
+        public Builder price(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder language(String language) {
+            this.language = language;
+            return this;
+        }
+
+        public Media build() {
+            return new Media(this);
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------
+
+Media m1 = new Media.Builder(1, "Mio min Mio", "Book")
+    .language("Swedish")
+    .price(99.0)
+    .build();
+
+Media m2 = new Media.Builder(2, "Harry Potter", "Book")
+    .publishingYear(1997)
+    .build();
+
+Media m3 = new Media.Builder(3, "Dune", "Audiobook")
+    .build(); // bara obligatoriska fält
