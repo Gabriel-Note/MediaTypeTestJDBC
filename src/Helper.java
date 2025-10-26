@@ -1,5 +1,6 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Helper {
     static int lastInsertedId(){
@@ -14,5 +15,11 @@ public class Helper {
         return id;
     }
 
+    public void printMedia(ArrayList<Media> arrayList){
+        for (Media media : arrayList){
+            System.out.println(
 
+            );
+        }
+    }
 }

@@ -6,9 +6,14 @@ public class Main {
         BookRepository br = new BookRepository();
         MemberRepository mr = new MemberRepository();
         LoanRepository lr = new LoanRepository();
+        MediaRepository mediaRepository = new MediaRepository();
+        Menu menu = new Menu();
+        menu.mainSelection();
+
+//        mediaRepository.showMediaWithTitle("f");
 
 //        mr.showAllMembers();
-        lr.showAllLoans();
+//        lr.showAllLoans();
 
         /*ArrayList<Member> memberRepository = new ArrayList<>();
         memberRepository = mr.showAllMembersGetList();
