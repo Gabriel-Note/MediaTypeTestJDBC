@@ -105,6 +105,28 @@ public class MediaRepository {
         return mediaId;
     }
 
+    public void deleteMedia(Connection conn, int mediaId){
+        String sql = """
+                DELETE FROM media
+                WHERE media_id = ?;
+                """;
+
+        try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
+
+            pstmt.setInt(1, mediaId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0){
+                System.out.println("Media deleted");
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error deleting media");
+            e.printStackTrace();
+        }
+    }
+
     // Obsolete
     public int insertNewMediffffffaGetKey(String title, MediaType mediaType){
         int mediaId = -1;

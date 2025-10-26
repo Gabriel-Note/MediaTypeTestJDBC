@@ -142,4 +142,39 @@ public class BookRepository extends MediaRepository{
             e.printStackTrace();
         }
     }
+    public void deleteBook(int mediaId){
+        String sql = """
+                DELETE FROM books
+                WHERE book_id = ?;
+                """;
+
+        try(Connection conn = Connections.JDBCConnection();){
+            conn.setAutoCommit(false); // kör vår BEGIN; i sql
+            deleteMedia(conn, mediaId);
+
+            try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
+                pstmt.setInt(1, mediaId);
+
+                int rowsUpdated = pstmt.executeUpdate();
+
+                if (rowsUpdated > 0){
+                    System.out.println("Book deleted");
+                }
+                conn.commit();
+            }
+            catch(SQLException e){
+                conn.rollback();
+                System.out.println("Error deleting book, changes reverted");
+                e.printStackTrace();
+//                throw e;
+            }
+            finally {
+                conn.setAutoCommit(true);
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Kan inte koppla till databasen?");
+            e.printStackTrace();
+        }
+    }
 }
