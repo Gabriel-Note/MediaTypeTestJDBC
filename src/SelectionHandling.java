@@ -29,7 +29,9 @@ public class SelectionHandling {
         System.out.println("3. Show members");
         System.out.println("4. Show active loans");
         System.out.println("5. Add media");
-        System.out.println("6. Exit");
+        System.out.println("6. Update members");
+        System.out.println("7. Delete book");
+        System.out.println("0. Exit");
     }
 
     public void printMediaTypeSelection(){
@@ -39,7 +41,7 @@ public class SelectionHandling {
         System.out.println("3. " + MediaType.AUDIOBOOK.getMediaType());
         System.out.println("4. " + MediaType.DVD.getMediaType());
         System.out.println("5. " + MediaType.BLU_RAY.getMediaType());
-        System.out.println("6. Go back");
+        System.out.println("0. Go back");
     }
 
 

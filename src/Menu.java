@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Menu {
     MediaRepository mediaRepository = new MediaRepository();
     BookRepository bookRepository = new BookRepository();
+    MemberRepository memberRepository = new MemberRepository();
 
 
     public void mainSelection(){
@@ -19,7 +20,6 @@ public class Menu {
                 case 1:
                     System.out.println("Write searchword to search on title");
                     searchWord = scan.nextLine();
-                    System.out.println("toString scanner: " + searchWord);
                     mediaRepository.showMediaWithTitle(searchWord);
                     break;
                 case 2:
@@ -45,7 +45,7 @@ public class Menu {
                             case 5:
                                 System.out.println("Work In Progress");
                                 break;
-                            case 6:
+                            case 0:
                                 loopCheck = false;
                                 break;
                             default:
@@ -54,8 +54,10 @@ public class Menu {
                     }
                     break;
                 case 3:
+                    memberRepository.showAllMembers();
                     break;
                 case 4:
+                    System.out.println("Work In Progress");
                     break;
                 case 5:
                     System.out.println("Select mediatype to add");
@@ -65,13 +67,13 @@ public class Menu {
                         case 1:
                             System.out.println("Booktitle: ");
                             String title = scan.nextLine();
-                            System.out.println("titel blev: " + title);
+//                            System.out.println("titel blev: " + title);
                             System.out.println("ISBN: ");
                             String isbn = scan.nextLine();
-                            System.out.println("isbn blev: " + isbn);
+//                            System.out.println("isbn blev: " + isbn);
                             System.out.println("Number of pages: ");
                             int pages = selectionHandling.positiveInt();
-                            System.out.println("pages blev: " + pages);
+//                            System.out.println("pages blev: " + pages);
                             bookRepository.insertNewBook(title, isbn, pages);
                             break;
                         case 2:
@@ -86,7 +88,7 @@ public class Menu {
                         case 5:
                             System.out.println("Work In Progress");
                             break;
-                        case 6:
+                        case 0:
                             loopCheck = false;
                             break;
                         default:
@@ -94,6 +96,14 @@ public class Menu {
                     }
                     break;
                 case 6:
+                    memberRepository.updateMember();
+                    break;
+                case 7:
+                    System.out.println("Write the mediaId of the item you wish to delete");
+                    int mediaIdToDelete = selectionHandling.positiveInt();
+                    bookRepository.deleteBook(mediaIdToDelete);
+                    break;
+                case 0:
                     System.exit(0);
                     break;
                 default:
