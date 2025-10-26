@@ -31,7 +31,66 @@ public class BookRepository extends MediaRepository{
         }
     }
 
-    public void insertNewBook(String isbn, int pages) {
+    public void showBooksWithTitle(String search){
+
+        String sql = """
+                SELECT *
+                FROM mediatypetest.books
+                JOIN media m ON m.media_id = books.media_id
+                WHERE m.title LIKE ?;
+                """;
+
+        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+
+            pstmt.setString(1, ("%" + search + "%"));
+            ResultSet rs = pstmt.executeQuery();
+
+            final int COL1 = 7, COL2 = 7, COL3 = 30, COL4 = 18, COL5 = 7, COL6 = 7, COL7 = 12, COL8 = 14;
+            System.out.printf(
+                    "%-" + COL1 + "s " +
+                            "%-" + COL2 + "s " +
+                            "%-" + COL3 + "s " +
+                            "%-" + COL4 + "s " +
+                            "%-" + COL5 + "s " +
+                            "%-" + COL6 + "s " +
+                            "%-" + COL7 + "s " +
+                            "%-" + COL8 + "s ",
+                    "BookID", "MediaID", "Title", "publishing Year", "Pages", "Price", "Language", "ISBN"
+            );
+            System.out.println();
+
+            while(rs.next()){
+                int bookId = rs.getInt("book_id");
+                int mediaId = rs.getInt("media_id");
+                int publishingYear = rs.getInt("publishing_year");
+                String title = rs.getString("title");
+                String isbn = rs.getString("isbn");
+                int pages = rs.getInt("pages");
+                double price = rs.getDouble("price");
+                String language = rs.getString("language");
+
+                System.out.printf(
+                        "%-" + COL1 + "s " +
+                                "%-" + COL2 + "s " +
+                                "%-" + COL3 + "s " +
+                                "%-" + COL4 + "s " +
+                                "%-" + COL5 + "s " +
+                                "%-" + COL6 + "s " +
+                                "%-" + COL7 + "s " +
+                                "%-" + COL8 + "s\n",
+                        bookId, mediaId, title, publishingYear, pages, price, language, isbn
+                );
+            }
+
+//                media.add(new Media(id, title, mediaType, publishingYear));
+        }
+        catch (SQLException e){
+            System.out.println("Något blev fel");
+            e.printStackTrace();
+        }
+    }
+
+    public void insertNewBook(String title, String isbn, int pages) {
 
         String sql = """
                 INSERT INTO mediatypetest.books (media_id, ISBN, pages)
@@ -39,9 +98,9 @@ public class BookRepository extends MediaRepository{
                 """;
         try(Connection conn = Connections.JDBCConnection();){
             conn.setAutoCommit(false); // kör vår BEGIN; i sql
-            int mediaId = insertNewMediaGetKey(conn,"hungry henry 2", MediaType.BOOK);
+            int mediaId = insertNewMediaGetKey(conn, title, MediaType.BOOK);
 
-            try(PreparedStatement pstmt = Connections.existingConnection(conn, sql)){
+            try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
                 pstmt.setInt(1, mediaId);
                 pstmt.setString(2, isbn);
                 pstmt.setInt(3, pages);

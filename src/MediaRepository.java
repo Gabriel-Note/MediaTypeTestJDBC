@@ -1,36 +1,61 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public abstract class MediaRepository {
+public class MediaRepository {
 
 
-    public ArrayList<Media> showAllMedia(){
-        String sql = "SELECT * FROM mediatypetest.media;";
+    public void showMediaWithTitle(String search){
+        String sql = """
+                SELECT * FROM mediatypetest.media
+                WHERE title LIKE ?;
+                """;
 
-        ArrayList<Media> media = new ArrayList<>();
+//        ArrayList<Media> media = new ArrayList<>();
 
-        try(ResultSet rs = Connections.JDBCQueryConnection(sql)){
+        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+
+            pstmt.setString(1, "%" + search + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            final int COL1 = 8, COL2 = 30, COL3 = 18, COL4 = 10, COL5 = 15, COL6 = 12;
+            System.out.printf(
+                "%-" + COL1 + "s " +
+                "%-" + COL2 + "s " +
+                "%-" + COL3 + "s " +
+                "%-" + COL4 + "s " +
+                "%-" + COL5 + "s " +
+                "%-" + COL6 + "s ",
+                "MediaID", "Title", "publishing Year", "Price", "Language", "Media Type"
+            );
+            System.out.println();
 
             while(rs.next()){
                 int id = rs.getInt("media_id");
                 String title = rs.getString("title");
                 int publishingYear = rs.getInt("publishing_year");
-//                System.out.println("pub year: " + publishingYear);
                 double price = rs.getDouble("price");
                 String language = rs.getString("language");
                 String mediaType = rs.getString("media_type");
 
-
-                media.add(new Media(id, title, mediaType, publishingYear));
+                System.out.printf(
+                    "%-" + COL1 + "s " +
+                    "%-" + COL2 + "s " +
+                    "%-" + COL3 + "s " +
+                    "%-" + COL4 + "s " +
+                    "%-" + COL5 + "s " +
+                    "%-" + COL6 + "s\n",
+                    id, title, publishingYear, price, language, mediaType
+                );
+//                media.add(new Media(id, title, mediaType, publishingYear));
             }
         }
         catch (SQLException e){
             System.out.println("Något blev fel");
             e.printStackTrace();
         }
-        return media;
     }
 
+    // Obsolete
     public void insertNewMedia(String title, String mediaType){
         String sql =
                 "INSERT INTO media (title, media_type) " +
@@ -55,10 +80,12 @@ public abstract class MediaRepository {
         
         """;
 
-        try(PreparedStatement pstmt = Connections.existingConnection(conn, sql)){
+        try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
 
             pstmt.setString(1, title);
             pstmt.setString(2, mediaType.getMediaType());
+
+
 
             int rowsUpdated = pstmt.executeUpdate();
 
@@ -78,6 +105,7 @@ public abstract class MediaRepository {
         return mediaId;
     }
 
+    // Obsolete
     public int insertNewMediffffffaGetKey(String title, MediaType mediaType){
         int mediaId = -1;
         String sql = """
