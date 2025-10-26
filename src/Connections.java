@@ -35,6 +35,15 @@ public class Connections {
         return rs;
     }
 
+    // Obsolete
+    static ResultSet existingConnectionGetResultSet(Connection conn, String sql) throws SQLException{
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
+    }
+
+    // Obsolete
     static Statement JDBCUpdateConnection(String sql) throws SQLException{
 
         String url = "jdbc:mysql://localhost:3306/mediatypetest";
@@ -59,7 +68,7 @@ public class Connections {
         return pstmt;
     }
 
-    static PreparedStatement existingConnection(Connection conn, String query) throws SQLException{
+    static PreparedStatement existingConnectionGetPreparedStatement(Connection conn, String query) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         return pstmt;
     }
