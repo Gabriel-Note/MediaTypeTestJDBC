@@ -11,10 +11,9 @@ public class Main {
         MediaRepository mediaRepository = new MediaRepository();
         MemberRepository memberRepository = new MemberRepository();
 
-        lr.loanMedia(1,1);
 
-        memberRepository.updateMember(1, "Erik Andersson", "erik.andersson@email.se", "Stockholm");
-        memberRepository.updateMember(10, "Linda Pettersson", "linda.pettersson@email.se", "Jönköping");
+//        memberRepository.updateMember(1, "Erik Andersson", "erik.andersson@email.se", "Stockholm");
+//        memberRepository.updateMember(10, "Linda Pettersson", "linda.pettersson@email.se", "Jönköping");
         Menu menu = new Menu();
         menu.mainSelection();
 

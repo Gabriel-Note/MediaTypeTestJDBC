@@ -5,6 +5,7 @@ public class Menu {
     MediaRepository mediaRepository = new MediaRepository();
     BookRepository bookRepository = new BookRepository();
     MemberRepository memberRepository = new MemberRepository();
+    LoanRepository loanRepository = new LoanRepository();
 
 
     public void mainSelection(){
@@ -121,6 +122,13 @@ public class Menu {
                     int pages = selectionHandling.positiveInt();
 
                     bookRepository.updateBook(bookId, isbn, pages);
+                    break;
+                case 9:
+                    System.out.println("Write the mediaID number for which you want to loan(required): ");
+                    int mediaId = selectionHandling.positiveInt();
+                    System.out.println("Write your memberId number(required): ");
+                    int memberId = selectionHandling.positiveInt();
+                    loanRepository.loanMedia(memberId, mediaId);
                     break;
                 case 0:
                     System.exit(0);

@@ -32,6 +32,7 @@ public class SelectionHandling {
         System.out.println("6. Update members");
         System.out.println("7. Delete book");
         System.out.println("8. Update book");
+        System.out.println("9. Loan media");
         System.out.println("0. Exit");
     }
 

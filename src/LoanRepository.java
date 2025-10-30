@@ -66,7 +66,6 @@ public class LoanRepository extends MediaRepository{
                 pstmt.setInt(2, mediaId);
 
                 int rowsUpdated = pstmt.executeUpdate();
-                System.out.println("1st execute");
 
                 /*pstmt.setInt(1, 14);
                 pstmt.setString(2, "868591");
