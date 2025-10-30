@@ -31,6 +31,7 @@ public class SelectionHandling {
         System.out.println("5. Add media");
         System.out.println("6. Update members");
         System.out.println("7. Delete book");
+        System.out.println("8. Update book");
         System.out.println("0. Exit");
     }
 
