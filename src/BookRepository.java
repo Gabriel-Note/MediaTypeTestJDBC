@@ -142,6 +142,45 @@ public class BookRepository extends MediaRepository{
             e.printStackTrace();
         }
     }
+
+    public void updateBook(int bookId, String isbn, int pages){
+        int intPages = 1; // kommer ge false i sql IF
+        int intIsbn = 1;
+        String sql = """
+                UPDATE books
+                SET ISBN = IF(1>?, ISBN, ?),
+                    pages = IF(1>?, pages, ?)
+                WHERE books.book_id = ?;
+                """;
+
+        // kommer ge true i sql IF
+        if (isbn.trim().equals("") || isbn == null){
+            intIsbn = 0;
+        }
+        if (pages == 0){
+            intPages = 0;
+        }
+
+        try(PreparedStatement pstmt = Connections.preparedJDBCUpdateConnection(sql)){
+
+            pstmt.setInt(1, intIsbn);
+            pstmt.setString(2,isbn);
+            pstmt.setInt(3, intPages);
+            pstmt.setInt(4, pages);
+            pstmt.setInt(5, bookId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0){
+                System.out.println("book updated");
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error updating book");
+            e.printStackTrace();
+        }
+    }
+
     public void deleteBook(int mediaId){
         String sql = """
                 DELETE FROM books

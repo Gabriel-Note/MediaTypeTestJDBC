@@ -77,7 +77,6 @@ public class MediaRepository {
         String sql = """
         INSERT INTO media (title, media_type)
         VALUES(?, ?)
-        
         """;
 
         try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
