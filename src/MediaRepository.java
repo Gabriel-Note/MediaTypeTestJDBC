@@ -17,15 +17,16 @@ public class MediaRepository {
             pstmt.setString(1, "%" + search + "%");
             ResultSet rs = pstmt.executeQuery();
 
-            final int COL1 = 8, COL2 = 30, COL3 = 18, COL4 = 10, COL5 = 15, COL6 = 12;
+            final int COL1 = 8, COL2 = 30, COL3 = 18, COL4 = 10, COL5 = 15, COL6 = 18, COL7 = 12;
             System.out.printf(
                 "%-" + COL1 + "s " +
                 "%-" + COL2 + "s " +
                 "%-" + COL3 + "s " +
                 "%-" + COL4 + "s " +
                 "%-" + COL5 + "s " +
-                "%-" + COL6 + "s ",
-                "MediaID", "Title", "publishing Year", "Price", "Language", "Media Type"
+                "%-" + COL6 + "s " +
+                "%-" + COL7 + "s ",
+                "MediaID", "Title", "publishing Year", "Price", "Language", "Available Copies", "Media Type"
             );
             System.out.println();
 
@@ -36,6 +37,7 @@ public class MediaRepository {
                 double price = rs.getDouble("price");
                 String language = rs.getString("language");
                 String mediaType = rs.getString("media_type");
+                int availableQuantity = rs.getInt("available_quantity");
 
                 System.out.printf(
                     "%-" + COL1 + "s " +
@@ -43,8 +45,9 @@ public class MediaRepository {
                     "%-" + COL3 + "s " +
                     "%-" + COL4 + "s " +
                     "%-" + COL5 + "s " +
-                    "%-" + COL6 + "s\n",
-                    id, title, publishingYear, price, language, mediaType
+                    "%-" + COL6 + "s " +
+                    "%-" + COL7 + "s\n",
+                    id, title, publishingYear, price, language, availableQuantity, mediaType
                 );
 //                media.add(new Media(id, title, mediaType, publishingYear));
             }
@@ -154,5 +157,30 @@ public class MediaRepository {
             e.printStackTrace();
         }
         return mediaId;
+    }
+
+    public int updateMedia(Connection conn, int mediaId){
+        String sql = """
+                UPDATE media
+                SET available_quantity = available_quantity - 1
+                WHERE media_id = ?;
+                """;
+
+        try(PreparedStatement pstmt = Connections.existingConnectionGetPreparedStatement(conn, sql)){
+
+            pstmt.setInt(1, mediaId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0){
+                System.out.println("quantity updated");
+            }
+            return 1;
+        }
+        catch (SQLException e){
+            System.out.println("\u001B[31mError updating quantity\u001B[0m");
+//            e.printStackTrace();
+            return -1;
+        }
     }
 }

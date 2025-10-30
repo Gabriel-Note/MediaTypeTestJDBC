@@ -116,7 +116,7 @@ public class BookRepository extends MediaRepository{
                 System.out.println("2nd execute");*/
 
                 if (rowsUpdated > 0){
-                    System.out.println("Book uppdaterad");
+                    System.out.println("Book added");
                 }
                 conn.commit();
             }
