@@ -60,39 +60,42 @@ public class Menu {
                     System.out.println("Work In Progress");
                     break;
                 case 5:
-                    System.out.println("Select mediatype to add");
-                    selectionHandling.printMediaTypeSelection();
-                    currentSelection = selectionHandling.positiveInt();
-                    switch (currentSelection) {
-                        case 1:
-                            System.out.println("Booktitle: ");
-                            String title = scan.nextLine();
+                    boolean addMediaBool = true;
+                    while (addMediaBool) {
+                        System.out.println("Select mediatype to add");
+                        selectionHandling.printMediaTypeSelection();
+                        currentSelection = selectionHandling.positiveInt();
+                        switch (currentSelection) {
+                            case 1:
+                                System.out.println("Booktitle: ");
+                                String title = scan.nextLine();
 //                            System.out.println("titel blev: " + title);
-                            System.out.println("ISBN: ");
-                            String isbn = scan.nextLine();
+                                System.out.println("ISBN: ");
+                                String isbn = scan.nextLine();
 //                            System.out.println("isbn blev: " + isbn);
-                            System.out.println("Number of pages: ");
-                            int pages = selectionHandling.positiveInt();
+                                System.out.println("Number of pages: ");
+                                int pages = selectionHandling.positiveInt();
 //                            System.out.println("pages blev: " + pages);
-                            bookRepository.insertNewBook(title, isbn, pages);
-                            break;
-                        case 2:
-                            System.out.println("Work In Progress");
-                            break;
-                        case 3:
-                            System.out.println("Work In Progress");
-                            break;
-                        case 4:
-                            System.out.println("Work In Progress");
-                            break;
-                        case 5:
-                            System.out.println("Work In Progress");
-                            break;
-                        case 0:
-                            loopCheck = false;
-                            break;
-                        default:
-                            System.out.println("Invalid input");
+                                bookRepository.insertNewBook(title, isbn, pages);
+                                break;
+                            case 2:
+                                System.out.println("Work In Progress");
+                                break;
+                            case 3:
+                                System.out.println("Work In Progress");
+                                break;
+                            case 4:
+                                System.out.println("Work In Progress");
+                                break;
+                            case 5:
+                                System.out.println("Work In Progress");
+                                break;
+                            case 0:
+                                addMediaBool = false;
+                                break;
+                            default:
+                                System.out.println("Invalid input");
+                        }
                     }
                     break;
                 case 6:
@@ -102,6 +105,22 @@ public class Menu {
                     System.out.println("Write the mediaId of the item you wish to delete");
                     int mediaIdToDelete = selectionHandling.positiveInt();
                     bookRepository.deleteBook(mediaIdToDelete);
+                    break;
+                case 8:
+                    System.out.println("You will type in all values that you want to change, \u001B[31mLEAVE FIELD EMPTY TO KEEP CURRENT INFORMATION\u001B[0m");
+                    System.out.println();
+
+                    System.out.println("Write the bookID number for which you want to update(required): ");
+                    int bookId = selectionHandling.positiveInt();
+
+                    System.out.println("New ISBN: ");
+                    String isbn = scan.nextLine();
+
+                    System.out.println("New number of pages: ");
+                    System.out.println("(To keep current amount of pages, assign 0)");
+                    int pages = selectionHandling.positiveInt();
+
+                    bookRepository.updateBook(bookId, isbn, pages);
                     break;
                 case 0:
                     System.exit(0);
